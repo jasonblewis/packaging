@@ -5,3 +5,7 @@
 *~
 .DS_Store
 .*.swp
+OSX/build/.osx-packager
+OSX/build/MythFrontend
+OSX/build/configure-string
+OSX/build/src

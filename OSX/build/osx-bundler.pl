@@ -196,6 +196,8 @@ sub MakeFramework
     &Syscall([ '/bin/cp', $dylib,
                "$fw_dir/Versions/A/$base" ]) or die;
 
+    # make sure we can install_name_tool the file by chmodding it
+    Syscall(['/bin/chmod', 'ugo+w', "$fw_dir/Versions/A/$base" ]) or die;
     &Syscall([ '/usr/bin/install_name_tool',
                '-id', $base, "$fw_dir/Versions/A/$base" ]) or die;
 
@@ -374,6 +376,8 @@ sub ProcessDependencies(@)
             if ( ! -e "$bundle/Contents/Frameworks/$base.framework/$base" )
             {   $depfiles{$base} = $dep   }
 
+    # make sure we can install_name_tool the file by chmodding it
+	    Syscall(['chmod', 'ugo+w', "\@executable_path/../Frameworks/$base.framework/$base" ]) or die;
             &Syscall([ '/usr/bin/install_name_tool', '-change', $dep,
                        "\@executable_path/../Frameworks/$base.framework/$base",
                        $file ]) or die;
